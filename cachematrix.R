@@ -1,5 +1,5 @@
 ## Please note:
-## * assume that the matrix supplied is always invertible. **
+## * assumes that the matrix supplied is always invertible. **
 
 # creates a special "matrix" object that can cache its inverse.
 makeCacheMatrix <- function(x = matrix()) {
@@ -17,7 +17,12 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 ## compute the inverse of the special "matrix" returned by makeCacheMatrix
-##   and return the cached result if applicable
+##   and return the cached result if applicable.
+##   * by default `solve` with only a single matrix argument will 
+##   solve for x in:  a %*% x = b ; where b=Iₙ (the identity matrix).
+##   * this function does cache the full `solve` call,
+##   and this may be useful, but be sure to re-set or initialize the matrix 
+##   with `makeCacheMatrix` if you change arguments to `solve`
 cacheSolve <- function(x, ...) {
     ## Return a matrix that is the inverse of 'x'
     ##   (inverse already calculated & matrix unchanged) -> retrieve from cache
@@ -32,9 +37,10 @@ cacheSolve <- function(x, ...) {
     m
 }
 
-m0 <- cbind(c(0,0,1), c(0,1,0), c(1,0,0))
-m <- makeCacheMatrix(m0)
-mi <- cacheSolve(m)
-m$get()
-mi
-m0%*%mi
+# m<-makeCacheMatrix(matrix(1:4,2,2))
+# cacheSolve(m)
+# cacheSolve(m)
+# m$set(matrix(c(1,2,3,6,5,4,9,7,8), 3, 3), )
+# cacheSolve(m)
+# cacheSolve(m)
+# m$get() %*% cacheSolve(m)
